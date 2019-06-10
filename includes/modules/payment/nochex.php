@@ -96,27 +96,8 @@
       }
     }        
     
-      /* $img_visa = DIR_WS_IMAGES .'nochex/visa.gif';
-      $img_mc = DIR_WS_IMAGES .'nochex/mastercard.gif';
-      $img_maestro = DIR_WS_IMAGES .'nochex/maestro.gif';
-      $img_electron = DIR_WS_IMAGES .'nochex/electron.gif';
-      $img_switch= DIR_WS_IMAGES .'nochex/switch.gif';
-      $img_solo = DIR_WS_IMAGES .'nochex/solo.gif';
-      $img_nochex = DIR_WS_IMAGES .'nochex/nochex.gif';
-      $nochex_cc_txt = implode("&nbsp;", array(tep_image($img_visa,' Visa ','','','align="absmiddle"'),
-                              tep_image($img_mc,' MasterCard ','','','align="absmiddle"'),
-                              tep_image($img_maestro,' Maestro ','','','align="absmiddle"'),
-                              tep_image($img_electron,' Visa Debit/Electron ','','','align="absmiddle"'),
-                              tep_image($img_switch,' Switch ','','','align="absmiddle"'),
-                              tep_image($img_solo,' Solo ','','','align="absmiddle"'),
-                              tep_image($img_nochex,' Nochex ','','','align="absmiddle"')
-                             ));
-							 
-							 
-      $fields[] = array('title' => '',        
-                'field' => '<div>' . $nochex_cc_txt . '</div>');*/
 				
-		$hideBillingEnabled = "<img src=\"https://www.nochex.com/logobase-secure-images/logobase-banners/clear-amex-mp.png\" alt='card logos' height='80px;' /><br/>";	
+		$hideBillingEnabled = "<img src=\"https://www.nochex.com/logobase-secure-images/logobase-banners/clear-mp.png\" alt='card logos' height='80px;' /><br/>";	
 						
 		if (MODULE_PAYMENT_NOCHEX_BILLING_DETAILS == "True"){
 		$hideBillingEnabled .= "<span style=\"font-weight:bold;color:red;\">Please check your billing address details match the details on your card that you are going to use.</span>";
@@ -369,6 +350,7 @@
 			       tep_draw_hidden_field('delivery_address', implode("\n", $delivery_address)) .
 				   tep_draw_hidden_field('delivery_city', $order->delivery['city'] ) .
 			       tep_draw_hidden_field('delivery_postcode', $order->delivery['postcode']) .
+			       tep_draw_hidden_field('optional_2', "cb") .
 			       tep_draw_hidden_field('email_address', $order->customer['email_address']) .
 			       tep_draw_hidden_field('customer_phone_number', $order->customer['telephone']);
   
