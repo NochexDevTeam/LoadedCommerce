@@ -9,16 +9,15 @@ header("HTTP/1.0 200 OK");
 include('includes/application_top.php');
 include(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_PROCESS);
 echo("\n");
-if(strtoupper($_SERVER["REQUEST_METHOD"])!="POST"){
+/*if(strtoupper($_SERVER["REQUEST_METHOD"])!="POST"){
 	die("<html><body>Access denied</body></html>");
-}
+}*/
 
 // load nochex_apc payment module
 $payment = 'nochex';
 require(DIR_WS_CLASSES . 'payment.php');
 $payment_modules = new payment($payment);
  
-
 $query_string = array();
 if(!isset($_POST)){
 	$_POST = $HTTP_POST_VARS;
@@ -31,7 +30,7 @@ $query_string = implode("&", $query_string);
 require(DIR_WS_CLASSES . 'order.php');
 $order = new order($_POST['order_id']);
 
-$order_status = MODULE_PAYMENT_NOCHEX_ORDER_STATUS_COMPLETE_ID;
+$order_status = 2;
 
 if($_POST["optional_2"] == "cb"){
 
@@ -51,15 +50,15 @@ $test_mode = "Test";
 $test_mode = "Live";
 }
 	$sql_data_array = array(
-		'nc_transaction_id' => $_POST["transaction_id"],
-		'nc_to_email' => $_POST["to_email"],
-		'nc_from_email' => $_POST["from_email"],
-		'nc_transaction_date' => $_POST["transaction_date"],
-		'nc_order_id' => $_POST["order_id"],
-		'nc_amount' => $_POST["amount"],
-		'nc_security_key' => $_POST["security_key"],
-		'nc_status' => $test_mode,
-		'nochex_response' => $apc_result
+		'nc_transaction_id' => tep_db_input($_POST["transaction_id"]),
+		'nc_to_email' => tep_db_input($_POST["email_address"]),
+		'nc_from_email' => tep_db_input($_POST["merchant_id"]),
+		'nc_transaction_date' => tep_db_input($_POST["transaction_date"]),
+		'nc_order_id' => tep_db_input($_POST["order_id"]),
+		'nc_amount' => tep_db_input($_POST["amount"]),
+		'nc_security_key' => tep_db_input($_POST["security_key"]),
+		'nc_status' => tep_db_input($test_mode),
+		'nochex_response' => tep_db_input($apc_result)
 	);
 	
 	tep_db_perform('nochex_apc_transactions', $sql_data_array); 
@@ -115,13 +114,13 @@ $test_mode = "Live";
 			'customer_notified' => $customer_notification,
 			'comments' => $comment_mode);
 			tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
-			
-			
+						
 			tep_db_query("delete from " .TABLE_CUSTOMERS_BASKET. " where customers_id=".$order->customer['id']);
 			tep_db_query("delete from " .TABLE_CUSTOMERS_BASKET_ATTRIBUTES. " where customers_id=".$order->customer['id']);
 			
-			$cart->reset(true); // Clear the cart's content
-			unset($_SESSION['sendto']);
+			$cart->reset(true);
+			
+				unset($_SESSION['sendto']);
 		        unset($_SESSION['billto']);
 		        unset($_SESSION['shipping']);
 		        unset($_SESSION['payment']);
@@ -152,6 +151,7 @@ if(stristr($response, "AUTHORISED")){
 		'nochex_response' => $apc_result
 	);
 	tep_db_perform('nochex_apc_transactions', $sql_data_array);
+	
 	if(strtolower($_POST["status"])=="test") {
 	   $test_mode = "true";
 	}else{
@@ -209,8 +209,7 @@ if(stristr($response, "AUTHORISED")){
 			'customer_notified' => $customer_notification,
 			'comments' => $comment_mode);
 			tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
-			
-			
+
 			tep_db_query("delete from " .TABLE_CUSTOMERS_BASKET. " where customers_id=".$order->customer['id']);
 			tep_db_query("delete from " .TABLE_CUSTOMERS_BASKET_ATTRIBUTES. " where customers_id=".$order->customer['id']);
 			
@@ -221,12 +220,7 @@ if(stristr($response, "AUTHORISED")){
 		        unset($_SESSION['payment']);
 		        unset($_SESSION['comments']);
 		        unset($_SESSION['products_ordered']);
-				
-				
 	}
-	
-	
-	
 
 function make_request($url, $vars){
 	$ch = curl_init(); // Initialise the curl tranfer
