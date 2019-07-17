@@ -13,6 +13,14 @@ Visit our Knowledgebase for support: https://support.nochex.com/
 ChangeLog
 =====================
 
+1.2
+-------
+- Module Update
+
+  - Updates for Nochex APC / Callback 
+  
+    -- Callback bug fixes
+  
 1.1
 -------
 
