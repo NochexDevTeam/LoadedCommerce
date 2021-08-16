@@ -97,7 +97,7 @@
     }        
     
 				
-		$hideBillingEnabled = "<img src=\"https://www.nochex.com/logobase-secure-images/logobase-banners/clear-mp.png\" alt='card logos' height='80px;' /><br/>";	
+		$hideBillingEnabled = "<img src=\"https://www.nochex.com/logobase-secure-images/logobase-banners/clear.png\" alt='card logos' height='80px;' /><br/>";	
 						
 		if (MODULE_PAYMENT_NOCHEX_BILLING_DETAILS == "True"){
 		$hideBillingEnabled .= "<span style=\"font-weight:bold;color:red;\">Please check your billing address details match the details on your card that you are going to use.</span>";
