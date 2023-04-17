@@ -129,7 +129,7 @@ $test_mode = "Live";
 
 }else{
 
-$apc_url = "https://www.nochex.com/apcnet/apc.aspx";
+$apc_url = "https://secure.nochex.com/apc/apc.aspx";
 
 $response = make_request($apc_url, $query_string);
 
