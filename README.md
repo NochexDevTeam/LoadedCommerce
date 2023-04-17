@@ -13,6 +13,10 @@ Visit our Knowledgebase for support: https://support.nochex.com/
 ChangeLog
 =====================
 
+1.3
+------
+- Small update to APC
+
 1.2
 -------
 - Module Update
